@@ -7,4 +7,4 @@ Some mechanics that will be implimented in the game will be cone vission for bot
 you will have sneak compnents and sound components as well that will allow enemies to detect where you are by sound.
 fighting mechanics will be implimented
 # the complex AI component
-The AI component being used is A* and pathfinding.
+The AI component being used is A* and state machine.
