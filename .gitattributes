@@ -1,1 +1,2 @@
 .dylib filter=lfs diff=lfs merge=lfs -text
+StealthGame/Library/PackageCache/com.unity.burst@1.8.8/.Runtime/libburst-llvm-15.dylib filter=lfs diff=lfs merge=lfs -text
