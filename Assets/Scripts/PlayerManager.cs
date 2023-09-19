@@ -6,9 +6,11 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private MovementComponent movement;
+    [SerializeField] private VisionComponent vision;
     
     private void FixedUpdate() {
         Movement();
+        Vision();
     }
 
     private void Movement(){
@@ -17,5 +19,10 @@ public class PlayerManager : MonoBehaviour
         bool isWalking = Input.GetKey(KeyCode.LeftShift);
 
         movement.DoMovement(x_input, y_input, isWalking);
+    }
+
+    private void Vision(){
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        vision.LookAt(mousePos);
     }
 }
