@@ -21,12 +21,8 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] private float walkSpeed = 5f;
 
     [Header("Sound Settings")]
-    [SerializeField] private float runSoundCooldown = 0.5f;
-    [SerializeField] private float walkSoundCooldown = 1.0f;
     [SerializeField] private float runSoundNoiseLevel = 2f;
     [SerializeField] private float walkSoundNoiseLevel = 0.5f;
-
-    private float soundTimer = 0.0f;
 
     private Vector2 smoothedInput;
     private Vector2 input;
@@ -35,12 +31,6 @@ public class MovementComponent : MonoBehaviour
 
     private void Start(){
         sound = GetComponent<SoundComponent>();
-    }
-
-    private void Update(){
-        if(soundTimer >= 0f){
-            soundTimer -= Time.deltaTime;
-        }
     }
 
     /// <summary>
@@ -59,10 +49,11 @@ public class MovementComponent : MonoBehaviour
 
         actorRb.velocity = smoothedInput * speed;
 
-        if(input != Vector2.zero && soundTimer <= 0f){
-            soundTimer = isWalking ? walkSoundCooldown : runSoundCooldown;
+        if(input != Vector2.zero){
             float noiseLevel = isWalking ? walkSoundNoiseLevel : runSoundNoiseLevel;
             sound.MakeSound(noiseLevel);
+        } else {
+            sound.MakeSound(0);
         }
     }
 }
