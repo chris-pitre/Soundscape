@@ -447,9 +447,8 @@ MonoBehaviour:
   actorRb: {fileID: 704990460}
   runSpeed: 10
   walkSpeed: 5
-  runSoundCooldown: 0.5
-  walkSoundCooldown: 1
-  soundTimer: 0
+  runSoundNoiseLevel: 1
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &704990459
 MonoBehaviour:
   m_ObjectHideFlags: 0
