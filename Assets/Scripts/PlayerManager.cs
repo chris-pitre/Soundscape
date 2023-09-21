@@ -7,8 +7,6 @@ public class PlayerManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
-
-    private bool isWalking;
     
     private void FixedUpdate() {
         Movement();
@@ -18,15 +16,8 @@ public class PlayerManager : MonoBehaviour
     private void Movement(){
         float x_input = Input.GetAxisRaw("Horizontal");
         float y_input = Input.GetAxisRaw("Vertical");
+        bool isWalking = Input.GetKey(KeyCode.LeftShift);
         Vector2 input = new Vector2(x_input, y_input);
-
-        if(Input.GetKeyDown(KeyCode.LeftShift)){
-            isWalking = true;
-        }
-
-        if(Input.GetKeyUp(KeyCode.LeftShift)){
-            isWalking = false;
-        }
 
         movement.DoMovement(input, isWalking);
     }
