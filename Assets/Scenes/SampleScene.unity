@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 704990459}
   - component: {fileID: 704990458}
   - component: {fileID: 704990461}
+  - component: {fileID: 704990462}
   m_Layer: 0
   m_Name: PlayerPlaceholder
   m_TagString: Untagged
@@ -442,9 +443,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 704990462}
   actorRb: {fileID: 704990460}
   runSpeed: 10
   walkSpeed: 5
+  runSoundCooldown: 0.5
+  walkSoundCooldown: 1
+  soundTimer: 0
 --- !u!114 &704990459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +504,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actorTransform: {fileID: 704990457}
+--- !u!114 &704990462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704990454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
