@@ -12,7 +12,8 @@ public class FieldOfVision : MonoBehaviour
     Mesh viewMesh;
     public float rayPerDeg; //This is how many rays will be cast per degree try to leave it around 2-3 higher values lag alot
     public int edgeResolveIterations; //Higher values of this improve how well shadows are around corners 
-    
+    public float cutAwayDis; //How much of an object you can see
+
     void Start(){
         viewMesh = new Mesh();
         viewMeshFilter.mesh = viewMesh;
@@ -54,7 +55,7 @@ public class FieldOfVision : MonoBehaviour
 
         verts[0] = new Vector3(0,0,0);
         for (int x = 0; x < verCount -1; x++){
-            verts[x +1] = transform.InverseTransformPoint(points[x]);
+            verts[x +1] = transform.InverseTransformPoint(points[x] + (transform.right * cutAwayDis));
             if(x < verCount-2){
             triangles[x*3] = 0;
             triangles[x*3 +1] = x+1;

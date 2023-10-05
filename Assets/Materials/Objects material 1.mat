@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Objects material
+  m_Name: Objects material 1
   m_Shader: {fileID: 4800000, guid: 9b6e9bf7619b1d445976434bbd7a895f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -92,7 +92,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.764151, g: 0.4072507, b: 0.1477839, a: 1}
+    - _BaseColor: {r: 0.8773585, g: 0.11173906, b: 0.13422737, a: 1}
     - _Color: {r: 0.009433985, g: 0.008677486, b: 0.008677486, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
