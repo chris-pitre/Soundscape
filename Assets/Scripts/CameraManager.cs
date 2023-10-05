@@ -13,24 +13,24 @@ public class CameraManager : MonoBehaviour
     
     void Start()
     {
-        
+        SetCameraPlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        SetFixedCamera(new Vector3 (10, 10, -10));
-        Camera.main.transform.position = cameraMode.cameraPos;
+
+        Camera.main.transform.position = cameraMode.SetCamera();
         
     }
 
-    public void CenterPlayer()
+    public void SetCameraPlayer()
     {
-        cameraMode.SetCamera(CameraMode.Center, new Vector3());
+        cameraMode.setMode(CameraMode.Center, new Vector3());
     }
 
-    public void SetFixedCamera(Vector3 cameraPoint)
+    public void SetCameraFixed(Vector3 cameraPoint)
     {
-        cameraMode.SetCamera(CameraMode.Fixed, cameraPoint);
+        cameraMode.setMode(CameraMode.Fixed, cameraPoint);
     }
 }
