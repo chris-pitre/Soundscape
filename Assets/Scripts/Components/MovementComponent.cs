@@ -51,9 +51,9 @@ public class MovementComponent : MonoBehaviour
 
         if(input != Vector2.zero){
             float noiseLevel = isWalking ? walkSoundNoiseLevel : runSoundNoiseLevel;
-            sound.MakeSound(noiseLevel);
+            sound.MakeSoundConstant(noiseLevel);
         } else {
-            sound.MakeSound(0);
+            sound.MakeSoundConstant(0);
         }
     }
 }
