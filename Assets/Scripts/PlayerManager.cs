@@ -8,19 +8,21 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private InventoryComponent inventory;
-    
-    private void FixedUpdate() {
+
+    [Header("References")]
+    [SerializeField] private Transform itemSpawn;
+
+    private void Update(){
+        if (Input.GetKeyDown(KeyCode.Mouse0)){
+            GameObject item = Object.Instantiate(inventory.GetItem(0).itemType.gameObject, itemSpawn.position, transform.rotation) as GameObject;
+            Vector2 itemDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            item.GetComponent<ThrowableItemManager>().target = itemDirection;
+        }
+    }
+
+    private void FixedUpdate(){
         Movement();
         Vision();
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
-            GameObject itemObject = new GameObject("Thrown Item"); // Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.Euler(0f,0f,0f)) as GameObject;
-            Item item = itemObject.AddComponent<Item>();
-            Rigidbody2D itemrb = itemObject.AddComponent<Rigidbody2D>();
-            itemObject.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(inventory.GetItem(0));
-            item.itemData = inventory.GetItem(0).itemType;
-            item.Use();
-        }
     }
 
     private void Movement(){

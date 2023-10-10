@@ -19,4 +19,7 @@ public class ItemData : ScriptableObject
 
     [Header("Item Behavior")]
     [SerializeField] public ItemBehavior behavior;
+
+    [Header("Prefab")]
+    [SerializeField] public GameObject gameObject;
 }

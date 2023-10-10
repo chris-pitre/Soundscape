@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   itemName: Rock
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 25894cd93468b1b4b89ccaa7b5e4b586, type: 3}
   itemDescription: 'A dull gray rock
 
 '
   behavior: 1
+  gameObject: {fileID: 4995307655566256678, guid: b6c11f17aeb6a874a9f0fe72d44a0a01, type: 3}
