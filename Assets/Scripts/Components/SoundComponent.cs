@@ -5,7 +5,6 @@ using UnityEngine;
 public class SoundComponent : MonoBehaviour
 {
     private CircleCollider2D cc;
-    private float soundTimerCountdown = 0f;
 
     private void Awake(){
         cc = gameObject.AddComponent(typeof(CircleCollider2D)) as CircleCollider2D;
@@ -18,16 +17,23 @@ public class SoundComponent : MonoBehaviour
     }
 
     public void MakeSoundImpulse(float noiseLevel, float soundTimer){
-        soundTimerCountdown = 0;
         StartCoroutine(DoSoundImpulse(noiseLevel, soundTimer));
     }
 
     private IEnumerator DoSoundImpulse(float noiseLevel, float soundTimer){
-        while(soundTimerCountdown < soundTimer){
-            cc.radius = Mathf.Lerp(cc.radius, noiseLevel, Time.deltaTime * 10);
+        float lerpTime = soundTimer;
+        float timer = 0f;
+        float soundTimerCountdown = 0f;
+        cc.radius = noiseLevel;
+        while(soundTimerCountdown < lerpTime){
             soundTimerCountdown += Time.deltaTime;
+            timer = soundTimerCountdown / lerpTime;
+            timer = Mathf.Sin(timer * Mathf.PI * 0.5f);
+
+            cc.radius = Mathf.Lerp(cc.radius, 0, timer);
+            Debug.DrawRay(transform.position, Vector2.up * cc.radius, Color.red);
             yield return null;
-        }
+        } 
     }
 
 

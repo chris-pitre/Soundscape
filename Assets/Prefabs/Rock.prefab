@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 1498955561200225018}
   - component: {fileID: 3792846799370667822}
   - component: {fileID: 7864697856433482252}
-  - component: {fileID: 3301023885665266460}
-  - component: {fileID: 4710804606835429374}
+  - component: {fileID: 3823900947190740822}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -97,7 +96,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4995307655566256678}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -112,9 +111,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &3792846799370667822
 CircleCollider2D:
@@ -163,25 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3301023885665266460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4995307655566256678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sound: {fileID: 7864697856433482252}
-  actorRb: {fileID: 1498955561200225018}
-  runSpeed: 50
-  walkSpeed: 50
-  runSoundNoiseLevel: 0.2
-  walkSoundNoiseLevel: 0.2
---- !u!114 &4710804606835429374
+--- !u!114 &3823900947190740822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,5 +175,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: {fileID: 7864697856433482252}
-  movement: {fileID: 3301023885665266460}
-  direction: {x: 0, y: 0}
+  rb: {fileID: 1498955561200225018}

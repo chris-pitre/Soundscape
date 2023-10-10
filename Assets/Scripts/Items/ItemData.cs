@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemBehavior{
-    None,
-    SoundEmitting,
-    Blinding,
-}
-
 [CreateAssetMenu]
 public class ItemData : ScriptableObject
 {
@@ -16,9 +10,6 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     [TextArea] 
     [SerializeField] private string itemDescription;
-
-    [Header("Item Behavior")]
-    [SerializeField] public ItemBehavior behavior;
 
     [Header("Prefab")]
     [SerializeField] public GameObject gameObject;
