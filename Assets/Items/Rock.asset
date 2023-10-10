@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c579e7e7c309d9163a263daeaf38dede, type: 3}
+  m_Name: Rock
+  m_EditorClassIdentifier: 
+  itemName: Rock
+  icon: {fileID: 21300000, guid: 25894cd93468b1b4b89ccaa7b5e4b586, type: 3}
+  itemDescription: 'A dull gray rock
+
+'
+  behavior: 1
+  gameObject: {fileID: 4995307655566256678, guid: b6c11f17aeb6a874a9f0fe72d44a0a01, type: 3}
