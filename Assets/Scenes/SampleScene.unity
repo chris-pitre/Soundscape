@@ -292,6 +292,7 @@ MonoBehaviour:
   vision: {fileID: 0}
   currentWaypoint: {fileID: 378317400}
   waypointThreshold: 0.5
+  waitTime: 2
 --- !u!114 &175067789
 MonoBehaviour:
   m_ObjectHideFlags: 0
