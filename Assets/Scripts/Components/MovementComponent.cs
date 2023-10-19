@@ -56,4 +56,19 @@ public class MovementComponent : MonoBehaviour
             sound.MakeSoundConstant(0);
         }
     }
+
+    public void DoMovementSilent(Vector2  input, bool isWalking){
+        float speed = isWalking ? walkSpeed : runSpeed; 
+                
+        smoothedInput = Vector2.SmoothDamp(
+            smoothedInput,
+            input,
+            ref smoothInputCurrentVelocity,
+            0.1f,
+            speed
+        );
+
+        actorRb.velocity = smoothedInput * speed;
+        sound.MakeSoundConstant(0);
+    }
 }
