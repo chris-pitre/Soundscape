@@ -4,6 +4,10 @@ using UnityEngine;
 using System;
 public class FieldOfVision : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private VisionComponent vision;
+
+    [Header("Settings")]
     public float viewSize; //The radius of view circle
     [Range(0,360)]
     public float FOV; // The actual FOV 
@@ -17,6 +21,7 @@ public class FieldOfVision : MonoBehaviour
     void Start(){
         viewMesh = new Mesh();
         viewMeshFilter.mesh = viewMesh;
+        viewMesh = viewMeshFilter.mesh;
     }
     
     void LateUpdate(){ // We call it as LateUpdate to let everything fully render before we draw the mesh
@@ -29,7 +34,7 @@ public class FieldOfVision : MonoBehaviour
         rayCastInfo oldRayCast = new rayCastInfo();
         
         for(int x = 0; x <= rayCount; x++){
-            float curAngle = transform.eulerAngles.z - FOV/2 + raySize * x;
+            float curAngle = vision.getDirectionAngle() - FOV/2 + raySize * x;
             rayCastInfo theRayCast = castRays(curAngle);
            if(x >0){ 
                 if (oldRayCast.hit != theRayCast.hit){// If the status of the ray is diffrent (one hit an object the other did not) we loop between that edge to find the actual edge to smooth the shadow while not casting like 10000 rays
@@ -104,9 +109,9 @@ public class FieldOfVision : MonoBehaviour
     }
     rayCastInfo castRays(float theAngle){ // We use this so we dont have to type out the raycast each time
         Vector3 direction = DirFromAngle (theAngle, true);
-        RaycastHit hit;
+        RaycastHit2D hit;
 
-        if (Physics.Raycast(transform.position, direction, out hit, viewSize, viewMask)){
+        if (hit = Physics2D.Raycast(transform.position, direction, viewSize, viewMask)){
             return new rayCastInfo(true, hit.point, hit.distance, theAngle);
         }else{
             return new rayCastInfo(false, transform.position + direction * viewSize, viewSize, theAngle);

@@ -14,7 +14,6 @@ public class ThrownSoundItem : MonoBehaviour
     public void Throw(Vector2 target, float speed){
         rb.velocity = target * speed;
         initialVelocity = rb.velocity;
-        Debug.Log(rb.velocity);
         StartCoroutine(DoDrag());
     }
 

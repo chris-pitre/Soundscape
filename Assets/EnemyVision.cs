@@ -10,12 +10,8 @@ public class EnemyVision : MonoBehaviour
      public bool playerInVision;
      public GameObject enemy;
      public LayerMask theMask;
+     public RaycastHit2D hit; 
  
-    void Start()
-    {
-        
-    }
-
 
     void FixedUpdate()
     {       float upperAngle = transform.eulerAngles.z + FOV/2; 
@@ -35,7 +31,7 @@ public class EnemyVision : MonoBehaviour
         if(theAngle.magnitude <= visionRange){
             if(theDeg <= FOV/2){
                 Debug.DrawRay(enemy.transform.position, theAngle.normalized * visionRange, Color.green);
-                RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, theAngle.normalized, visionRange, theMask);
+                hit = Physics2D.Raycast(enemy.transform.position, theAngle.normalized, visionRange, theMask);
                 
                 if(hit.collider != null && hit.transform == player.transform){
                 playerInVision = true;

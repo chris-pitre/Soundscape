@@ -16,29 +16,53 @@ public class PatrolComponent : MonoBehaviour
     [SerializeField] private float waypointThreshold;
     [SerializeField] private float waitTime = 0f;
     private float timer;
-    private bool isWaiting;
+    private bool isWaiting = false;
+    private bool isStarting = false;
+
     private void Start(){
         transform.position = currentWaypoint.transform.position;
         movement = GetComponent<MovementComponent>();
         vision = GetComponent<VisionComponent>();
         timer = waitTime;
     }
+    
+    public void StartPatrol(){
+        StopAllCoroutines();
+        vision.StopLookTowards();
+        StartCoroutine(StartPatrolCoroutine());
+    }
 
-    private void Update(){
-        if(timer < waitTime){
-            timer += Time.deltaTime;
-            movement.DoMovementSilent(Vector2.zero, false);
+    public IEnumerator StartPatrolCoroutine(){
+        isStarting = true;
+        vision.LookTowards(currentWaypoint.transform.position); 
+        while(vision.GetIsLookTowardsRunning()){
+            yield return null;
+        }
+        while(currentWaypoint.GetDistance(transform.position) > waypointThreshold){
+            movement.DoMovement(currentWaypoint.GetDirection(transform.position), false);
+            vision.LookAt(currentWaypoint.transform.position);
+            yield return null;
+        }
+        isStarting = false;
+    }
+
+    public void DoPatrol(){
+        if(isStarting){
             return;
-        } 
-        if (isWaiting && timer >= waitTime){
-            currentWaypoint = currentWaypoint.GetNextWaypoint();
-            vision.LookTowards(currentWaypoint.transform.position);
-            isWaiting = false;
         }
         if(vision.GetIsLookTowardsRunning()){
             movement.DoMovementSilent(Vector2.zero, false);
             return;
-        }
+        } 
+        if(timer < waitTime){
+            timer += Time.deltaTime;
+            movement.DoMovementSilent(Vector2.zero, false);
+            return;
+        } else if (isWaiting && timer >= waitTime){
+            currentWaypoint = currentWaypoint.GetNextWaypoint();
+            vision.LookTowards(currentWaypoint.transform.position);
+            isWaiting = false;
+        } 
         if(currentWaypoint.GetDistance(transform.position) <= waypointThreshold){
             movement.DoMovementSilent(Vector2.zero, false);
             isWaiting = true;
@@ -47,6 +71,11 @@ public class PatrolComponent : MonoBehaviour
             movement.DoMovement(currentWaypoint.GetDirection(transform.position), false);
             vision.LookAt(currentWaypoint.transform.position);
         }
+    }
+
+    public void StopPatrol(){
+        StopAllCoroutines();
+        vision.StopLookTowards();
     }
 
 

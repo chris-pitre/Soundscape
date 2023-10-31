@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 136055954}
   - component: {fileID: 136055953}
   - component: {fileID: 136055952}
+  - component: {fileID: 136055959}
   m_Layer: 0
   m_Name: EyeMonster
   m_TagString: Untagged
@@ -191,9 +192,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 136055956}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &136055955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 136055954}
   vision: {fileID: 136055953}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &136055956
 Rigidbody2D:
   serializedVersion: 4
@@ -302,6 +308,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &136055959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136055951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &148324474
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +335,7 @@ GameObject:
   - component: {fileID: 148324477}
   - component: {fileID: 148324476}
   - component: {fileID: 148324475}
+  - component: {fileID: 148324482}
   m_Layer: 0
   m_Name: HellHound
   m_TagString: Untagged
@@ -370,9 +389,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 148324479}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &148324478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 148324477}
   vision: {fileID: 148324476}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &148324479
 Rigidbody2D:
   serializedVersion: 4
@@ -481,6 +505,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &148324482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148324474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &421065281
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +532,7 @@ GameObject:
   - component: {fileID: 421065284}
   - component: {fileID: 421065283}
   - component: {fileID: 421065282}
+  - component: {fileID: 421065289}
   m_Layer: 0
   m_Name: Ad
   m_TagString: Untagged
@@ -549,9 +586,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 421065286}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &421065285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +606,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 421065284}
   vision: {fileID: 421065283}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &421065286
 Rigidbody2D:
   serializedVersion: 4
@@ -660,6 +702,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &421065289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421065281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,6 +948,7 @@ GameObject:
   - component: {fileID: 704990458}
   - component: {fileID: 704990461}
   - component: {fileID: 704990462}
+  - component: {fileID: 704990463}
   m_Layer: 0
   m_Name: PlayerPlaceholder
   m_TagString: Untagged
@@ -962,7 +1017,7 @@ Transform:
   m_GameObject: {fileID: 704990454}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.19, y: -0.34, z: 0}
+  m_LocalPosition: {x: 3.184, y: -1.003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -980,9 +1035,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 704990460}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &704990459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,6 +1055,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 704990458}
   vision: {fileID: 704990461}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &704990460
 Rigidbody2D:
   serializedVersion: 4
@@ -1058,6 +1118,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &704990463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704990454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &994877870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,6 +1145,7 @@ GameObject:
   - component: {fileID: 994877873}
   - component: {fileID: 994877872}
   - component: {fileID: 994877871}
+  - component: {fileID: 994877878}
   m_Layer: 0
   m_Name: shardsoul slayer
   m_TagString: Untagged
@@ -1126,9 +1199,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 994877875}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &994877874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,6 +1219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 994877873}
   vision: {fileID: 994877872}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &994877875
 Rigidbody2D:
   serializedVersion: 4
@@ -1237,6 +1315,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &994877878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994877870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1058833663
 GameObject:
   m_ObjectHideFlags: 0
@@ -32014,6 +32104,7 @@ GameObject:
   - component: {fileID: 1463492252}
   - component: {fileID: 1463492251}
   - component: {fileID: 1463492250}
+  - component: {fileID: 1463492257}
   m_Layer: 0
   m_Name: minotaur
   m_TagString: Untagged
@@ -32067,9 +32158,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 1463492254}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &1463492253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32084,6 +32178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 1463492252}
   vision: {fileID: 1463492251}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &1463492254
 Rigidbody2D:
   serializedVersion: 4
@@ -32178,6 +32274,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1463492257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463492249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1566213655
 GameObject:
   m_ObjectHideFlags: 0
@@ -32193,6 +32301,7 @@ GameObject:
   - component: {fileID: 1566213658}
   - component: {fileID: 1566213657}
   - component: {fileID: 1566213656}
+  - component: {fileID: 1566213663}
   m_Layer: 0
   m_Name: BlindMan
   m_TagString: Untagged
@@ -32246,9 +32355,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174184233a7da414aa9c48980c2f028b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   actorRb: {fileID: 1566213660}
   runSpeed: 10
   walkSpeed: 5
+  runSoundNoiseLevel: 2
+  walkSoundNoiseLevel: 0.5
 --- !u!114 &1566213659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32263,6 +32375,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 1566213658}
   vision: {fileID: 1566213657}
+  inventory: {fileID: 0}
+  itemSpawn: {fileID: 0}
 --- !u!50 &1566213660
 Rigidbody2D:
   serializedVersion: 4
@@ -32357,6 +32471,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1566213663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566213655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1789651789
 GameObject:
   m_ObjectHideFlags: 0
