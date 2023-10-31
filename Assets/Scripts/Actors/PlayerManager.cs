@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private InventoryComponent inventory;
+    [SerializeField] private Animator animator;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
@@ -36,12 +37,24 @@ public class PlayerManager : MonoBehaviour
             input = new Vector2(x_input, y_input);
         }
 
+        if(input == Vector2.zero){
+            animator.SetBool("moving", false);
+        } else {
+            animator.SetBool("moving", true);
+        }
+
         movement.DoMovement(input, isWalking);
     }
 
     private void Vision(){
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         vision.LookAt(mousePos);
+
+        float angle = vision.getDirectionAngle();
+        angle -= 90;
+        Vector2 angleVector = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+        animator.SetFloat("moveX", angleVector.x);
+        animator.SetFloat("moveY", angleVector.y);
     }
     
     private void ThrowCurrentItem(){

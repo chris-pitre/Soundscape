@@ -6,11 +6,17 @@ public class VisionComponent : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform actorTransform;
+    [Header("Settings")]
+    [SerializeField] private bool isRotate;
+    private Quaternion direction;
     private bool isLookTowardsRunning = false;
 
     public void LookAt(Vector3 target){
         Vector3 perpendicular = Vector3.Cross(actorTransform.position-target,Vector3.forward);
-		actorTransform.rotation = Quaternion.LookRotation(Vector3.forward, perpendicular);
+		direction = Quaternion.LookRotation(Vector3.forward, perpendicular);
+        if(isRotate){
+            actorTransform.rotation = direction;
+        }
 
         Debug.DrawRay(actorTransform.position, target - actorTransform.position, Color.green);
     }
@@ -33,14 +39,29 @@ public class VisionComponent : MonoBehaviour
             currentLerpTime += Time.deltaTime;
 
             timer = currentLerpTime / lerpTime;
-            actorTransform.rotation = Quaternion.Lerp(originalRotation, finalRotation, timer);
+            direction = Quaternion.Lerp(originalRotation, finalRotation, timer);
+            if(isRotate){
+                actorTransform.rotation = direction;
+            }
             
             yield return null;
         }
         isLookTowardsRunning = false;
     }
 
+    public void StopLookTowards(){
+        StopAllCoroutines();
+    }
+
     public bool GetIsLookTowardsRunning(){
         return isLookTowardsRunning;
+    }
+
+    public Quaternion getDirection(){
+        return direction;
+    }
+
+    public float getDirectionAngle(){
+        return direction.eulerAngles.z;
     }
 }
