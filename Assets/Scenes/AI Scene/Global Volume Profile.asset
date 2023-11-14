@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.441
+    m_Value: 0.564
   smoothness:
     m_OverrideState: 1
     m_Value: 1
@@ -43,7 +43,7 @@ MonoBehaviour:
   active: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.47
+    m_Value: 0.5
   xMultiplier:
     m_OverrideState: 1
     m_Value: 1
@@ -115,7 +115,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 1, z: 1, w: 0.032085564}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.342246}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.21390375}
   gain:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: -0.0000000025499314}
