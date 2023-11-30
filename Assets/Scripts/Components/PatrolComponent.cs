@@ -11,6 +11,7 @@ public class PatrolComponent : MonoBehaviour
     [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private Waypoint currentWaypoint;
+    [SerializeField] private AStar astar;
 
     [Header("Settings")]
     [SerializeField] private float waypointThreshold;
@@ -23,6 +24,7 @@ public class PatrolComponent : MonoBehaviour
         transform.position = currentWaypoint.transform.position;
         movement = GetComponent<MovementComponent>();
         vision = GetComponent<VisionComponent>();
+        astar = GetComponent<AStar>();
         timer = waitTime;
     }
     
@@ -39,7 +41,7 @@ public class PatrolComponent : MonoBehaviour
             yield return null;
         }
         while(currentWaypoint.GetDistance(transform.position) > waypointThreshold){
-            movement.DoMovement(currentWaypoint.GetDirection(transform.position), false);
+            astar.doMove(currentWaypoint.GetDirection(transform.position), false);
             vision.LookAt(currentWaypoint.transform.position);
             yield return null;
         }
@@ -51,12 +53,14 @@ public class PatrolComponent : MonoBehaviour
             return;
         }
         if(vision.GetIsLookTowardsRunning()){
+           
             movement.DoMovementSilent(Vector2.zero, false);
             return;
         } 
         if(timer < waitTime){
             timer += Time.deltaTime;
-            movement.DoMovementSilent(Vector2.zero, false);
+            
+           astar.doMoveSilent(currentWaypoint.GetPosition(), false);
             return;
         } else if (isWaiting && timer >= waitTime){
             currentWaypoint = currentWaypoint.GetNextWaypoint();
@@ -64,11 +68,13 @@ public class PatrolComponent : MonoBehaviour
             isWaiting = false;
         } 
         if(currentWaypoint.GetDistance(transform.position) <= waypointThreshold){
-            movement.DoMovementSilent(Vector2.zero, false);
+            
+             astar.doMoveSilent(currentWaypoint.GetPosition(), false);
             isWaiting = true;
             timer = 0f;
         } else {
-            movement.DoMovement(currentWaypoint.GetDirection(transform.position), false);
+            
+             astar.doMove(currentWaypoint.transform.position, false);
             vision.LookAt(currentWaypoint.transform.position);
         }
     }

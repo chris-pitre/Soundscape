@@ -10,6 +10,7 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private EnemyVision enemyVision;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private MovementComponent movement;
+    [SerializeField] private AStar astar;
     //eventually when a* gets implemented, that will handle chasing the player
     //for now, kinematic arrive
     [SerializeField] private Transform playerPosition;
@@ -23,11 +24,14 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private float radiusOfSat = 0.2f;
 
     private float timer = 0f;
+
+  
     private void FixedUpdate() {
         switch(state){
             case EnemyStates.Alert:
-                direction = playerPosition.position - transform.position;
-                movement.DoMovement(direction.normalized, false);
+                //direction = playerPosition.position - transform.position;
+                //movement.DoMovement(direction.normalized, false);
+                astar.doMove(playerPosition.position, false);
                 vision.LookAt(playerPosition.position);
                 if(!enemyVision.playerInVision){
                     timer = 0f;
@@ -46,7 +50,7 @@ public class BasicNPCManager : MonoBehaviour
                 direction = enemyVision.hit.point - new Vector2(transform.position.x, transform.position.y);
                 if(direction.magnitude > radiusOfSat){
                     vision.LookAt(lastPosition - direction);
-                    movement.DoMovement(direction.normalized, false);
+                    astar.doMove(lastPosition, false);
                 }
                 timer += Time.deltaTime;
                 if(enemyVision.playerInVision){
@@ -58,7 +62,8 @@ public class BasicNPCManager : MonoBehaviour
                 }
                 break;
         }
+       
         
     }
-
+ 
 }
