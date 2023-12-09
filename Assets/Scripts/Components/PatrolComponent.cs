@@ -11,45 +11,58 @@ public class PatrolComponent : MonoBehaviour
     [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private Waypoint currentWaypoint;
-    [SerializeField] private AStar astar;
+    [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
+    //[SerializeField] private AStar astar;
 
     [Header("Settings")]
     [SerializeField] private float waypointThreshold;
     [SerializeField] private float waitTime = 0f;
-    private float timer;
-    private bool isWaiting = false;
-    private bool isStarting = false;
+    private bool countdown = false;
+    public float timer;
+    public bool isWaiting = false;
+    public bool isStarting = false;
 
     private void Start(){
         transform.position = currentWaypoint.transform.position;
         movement = GetComponent<MovementComponent>();
         vision = GetComponent<VisionComponent>();
-        astar = GetComponent<AStar>();
+        //astar = GetComponent<AStar>();
         timer = waitTime;
     }
     
     public void StartPatrol(){
-        StopAllCoroutines();
-        vision.StopLookTowards();
-        StartCoroutine(StartPatrolCoroutine());
+        DoPatrol();
+        timer = waitTime;
     }
 
-    public IEnumerator StartPatrolCoroutine(){
-        isStarting = true;
-        vision.LookTowards(currentWaypoint.transform.position); 
-        while(vision.GetIsLookTowardsRunning()){
-            yield return null;
-        }
-        while(currentWaypoint.GetDistance(transform.position) > waypointThreshold){
-            astar.doMove(currentWaypoint.GetDirection(transform.position), false);
-            vision.LookAt(currentWaypoint.transform.position);
-            yield return null;
-        }
-        isStarting = false;
-    }
+    
 
     public void DoPatrol(){
-        if(isStarting){
+        
+        if(currentWaypoint.GetDistance(transform.position) <= waypointThreshold){
+            
+            if(timer <= 0f){
+            countdown = false;
+            timer = waitTime;
+            currentWaypoint = currentWaypoint.GetNextWaypoint();
+            agent.SetDestination(currentWaypoint.GetPosition());
+            vision.LookTowards(currentWaypoint.GetPosition());
+            }else{
+                 if (!countdown){countdown = true;}
+                    vision.LookTowards(currentWaypoint.GetNextWaypoint().GetPosition()); 
+                    }
+        }else{
+            
+            agent.SetDestination(currentWaypoint.GetPosition());
+            vision.LookTowards(currentWaypoint.GetPosition());
+        }}
+        void Update(){
+            if(countdown){
+            timer = timer - Time.deltaTime;
+        }}
+        
+        
+       /* if(isStarting){
             return;
         }
         if(vision.GetIsLookTowardsRunning()){
@@ -60,7 +73,8 @@ public class PatrolComponent : MonoBehaviour
         if(timer < waitTime){
             timer += Time.deltaTime;
             
-           astar.doMoveSilent(currentWaypoint.GetPosition(), false);
+           //astar.doMoveSilent(currentWaypoint.GetPosition(), false);
+           agent.SetDestination(currentWaypoint.GetPosition());
             return;
         } else if (isWaiting && timer >= waitTime){
             currentWaypoint = currentWaypoint.GetNextWaypoint();
@@ -69,16 +83,18 @@ public class PatrolComponent : MonoBehaviour
         } 
         if(currentWaypoint.GetDistance(transform.position) <= waypointThreshold){
             
-             astar.doMoveSilent(currentWaypoint.GetPosition(), false);
+             //astar.doMoveSilent(currentWaypoint.GetPosition(), false);
+             agent.SetDestination(currentWaypoint.GetPosition());
             isWaiting = true;
             timer = 0f;
         } else {
             
-             astar.doMove(currentWaypoint.transform.position, false);
+            agent.SetDestination(currentWaypoint.transform.position);
+             //astar.doMove(currentWaypoint.transform.position, false);
             vision.LookAt(currentWaypoint.transform.position);
         }
     }
-
+*/
     public void StopPatrol(){
         StopAllCoroutines();
         vision.StopLookTowards();

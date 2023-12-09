@@ -5,15 +5,16 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Waypoint nextWaypoint;
+    public Waypoint nextWaypoint;
 
     public float GetDistance(Vector3 actor){
-        return Vector3.Distance(transform.position, actor);
+        return (transform.position - actor).magnitude;
+        
     }
 
     public Vector3 GetDirection(Vector3 actor){
-        Vector3 distanceVector = transform.position - actor;
-        return distanceVector / distanceVector.magnitude;
+        Vector3 distanceVector = actor - transform.position;
+        return distanceVector.normalized;
     }
 
     public Waypoint GetNextWaypoint(){

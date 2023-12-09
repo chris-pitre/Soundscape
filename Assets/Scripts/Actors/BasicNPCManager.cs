@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class BasicNPCManager : MonoBehaviour
 {
     [Header("References")]
@@ -10,7 +10,7 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private EnemyVision enemyVision;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private MovementComponent movement;
-    [SerializeField] private AStar astar;
+    [SerializeField] private NavMeshAgent agent;
     //eventually when a* gets implemented, that will handle chasing the player
     //for now, kinematic arrive
     [SerializeField] private Transform playerPosition;
@@ -24,14 +24,19 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private float radiusOfSat = 0.2f;
 
     private float timer = 0f;
-
+    private void Start(){
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+		agent.updateUpAxis = false;
+    }
   
     private void FixedUpdate() {
         switch(state){
             case EnemyStates.Alert:
                 //direction = playerPosition.position - transform.position;
                 //movement.DoMovement(direction.normalized, false);
-                astar.doMove(playerPosition.position, false);
+                //astar.doMove(playerPosition.position, false);
+                agent.SetDestination(playerPosition.position);
                 vision.LookAt(playerPosition.position);
                 if(!enemyVision.playerInVision){
                     timer = 0f;
@@ -40,9 +45,10 @@ public class BasicNPCManager : MonoBehaviour
                 }
                 break;
             case EnemyStates.Patrol:
+                agent.speed = 1.5f;
                 patrol.DoPatrol();
                 if(enemyVision.playerInVision){
-                    patrol.StopPatrol();
+                    //patrol.StopPatrol();
                     state = EnemyStates.Alert;
                 }
                 break;
@@ -50,7 +56,7 @@ public class BasicNPCManager : MonoBehaviour
                 direction = enemyVision.hit.point - new Vector2(transform.position.x, transform.position.y);
                 if(direction.magnitude > radiusOfSat){
                     vision.LookAt(lastPosition - direction);
-                    astar.doMove(lastPosition, false);
+                    agent.SetDestination(lastPosition);
                 }
                 timer += Time.deltaTime;
                 if(enemyVision.playerInVision){
