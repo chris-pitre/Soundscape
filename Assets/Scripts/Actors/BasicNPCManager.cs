@@ -33,6 +33,7 @@ public class BasicNPCManager : MonoBehaviour
     private void FixedUpdate() {
         switch(state){
             case EnemyStates.Alert:
+                agent.speed = 2.5f;
                 //direction = playerPosition.position - transform.position;
                 //movement.DoMovement(direction.normalized, false);
                 //astar.doMove(playerPosition.position, false);
