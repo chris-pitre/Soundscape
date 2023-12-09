@@ -31,8 +31,11 @@ public class PatrolComponent : MonoBehaviour
     }
     
     public void StartPatrol(){
-        DoPatrol();
         timer = waitTime;
+        countdown = false;
+        DoPatrol();
+        
+
     }
 
     
@@ -54,7 +57,7 @@ public class PatrolComponent : MonoBehaviour
         }else{
             
             agent.SetDestination(currentWaypoint.GetPosition());
-            vision.LookTowards(currentWaypoint.GetPosition());
+            vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
         }}
         void Update(){
             if(countdown){

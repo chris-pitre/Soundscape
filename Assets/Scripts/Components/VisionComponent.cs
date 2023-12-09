@@ -49,6 +49,35 @@ public class VisionComponent : MonoBehaviour
         isLookTowardsRunning = false;
     }
 
+    public void LookFasterTowards(Vector3 target){
+        if(!isLookTowardsRunning){
+            StartCoroutine(LookFasterTowardsCoroutine(target));
+        }
+    }
+
+    private IEnumerator LookFasterTowardsCoroutine(Vector3 target){
+        isLookTowardsRunning = true;
+        Vector3 perpendicular = Vector3.Cross(actorTransform.position-target,Vector3.forward);
+        Quaternion originalRotation = actorTransform.rotation;
+		Quaternion finalRotation = Quaternion.LookRotation(Vector3.forward, perpendicular);
+        float lerpTime = .2f;
+        float currentLerpTime = 0f;
+        float timer = 0f;
+        while(currentLerpTime < lerpTime){
+            currentLerpTime += Time.deltaTime;
+
+            timer = currentLerpTime / lerpTime;
+            direction = Quaternion.Lerp(originalRotation, finalRotation, timer);
+            if(isRotate){
+                actorTransform.rotation = direction;
+            }
+            
+            yield return null;
+        }
+        isLookTowardsRunning = false;
+    }
+
+
     public void StopLookTowards(){
         StopAllCoroutines();
     }

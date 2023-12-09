@@ -38,7 +38,7 @@ public class BasicNPCManager : MonoBehaviour
                 //movement.DoMovement(direction.normalized, false);
                 //astar.doMove(playerPosition.position, false);
                 agent.SetDestination(playerPosition.position);
-                vision.LookAt(playerPosition.position);
+                vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
                 if(!enemyVision.playerInVision){
                     timer = 0f;
                     lastPosition = playerPosition.position;
@@ -56,8 +56,9 @@ public class BasicNPCManager : MonoBehaviour
             case EnemyStates.Cautious:
                 direction = enemyVision.hit.point - new Vector2(transform.position.x, transform.position.y);
                 if(direction.magnitude > radiusOfSat){
-                    vision.LookAt(lastPosition - direction);
+                    
                     agent.SetDestination(lastPosition);
+                    vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
                 }
                 timer += Time.deltaTime;
                 if(enemyVision.playerInVision){
