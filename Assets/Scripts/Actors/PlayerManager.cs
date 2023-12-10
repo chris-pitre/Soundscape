@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private VisionComponent vision;
     [SerializeField] private InventoryComponent inventory;
     [SerializeField] private Animator animator;
+    [SerializeField] private PostProccessingComponent p_component;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
@@ -74,6 +75,21 @@ public class PlayerManager : MonoBehaviour
             throwTimer = 0f;
             isThrowing = false;
             inventory.GetItem(0).ammo--;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            StartCoroutine(p_component.Hurt());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.tag == "ThrownItem" && other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
+            inventory.GetItem(0).ammo++;
+            Destroy(other.gameObject);
         }
     }
 }

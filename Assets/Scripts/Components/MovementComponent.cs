@@ -24,6 +24,7 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] private float runSoundNoiseLevel = 2f;
     [SerializeField] private float walkSoundNoiseLevel = 0.5f;
 
+    [SerializeField] private float smoothValue;
     private Vector2 smoothedInput;
     private Vector2 input;
     private Vector2 smoothInputCurrentVelocity;
@@ -43,7 +44,7 @@ public class MovementComponent : MonoBehaviour
             smoothedInput,
             input,
             ref smoothInputCurrentVelocity,
-            0.1f,
+            smoothValue,
             speed
         );
 
@@ -64,7 +65,7 @@ public class MovementComponent : MonoBehaviour
             smoothedInput,
             input,
             ref smoothInputCurrentVelocity,
-            0.1f,
+            smoothValue,
             speed
         );
 
