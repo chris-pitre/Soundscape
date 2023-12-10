@@ -2,81 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MovementComponent))] 
-[RequireComponent(typeof(VisionComponent))] 
-
+[RequireComponent(typeof(MovementComponent))]
+[RequireComponent(typeof(VisionComponent))]
 public class PatrolComponent : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private Waypoint currentWaypoint;
+    [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
 
     [Header("Settings")]
     [SerializeField] private float waypointThreshold;
     [SerializeField] private float waitTime = 0f;
-    private float timer;
-    private bool isWaiting = false;
-    private bool isStarting = false;
 
-    private void Start(){
+    private bool countdown = false;
+    public float timer;
+    public bool isWaiting = false;
+    public bool isStarting = false;
+
+    private void Start() {
         transform.position = currentWaypoint.transform.position;
         movement = GetComponent<MovementComponent>();
         vision = GetComponent<VisionComponent>();
         timer = waitTime;
     }
-    
-    public void StartPatrol(){
-        StopAllCoroutines();
-        vision.StopLookTowards();
-        StartCoroutine(StartPatrolCoroutine());
+
+    public void StartPatrol() {
+        timer = waitTime;
+        countdown = false;
+        DoPatrol();
     }
 
-    public IEnumerator StartPatrolCoroutine(){
-        isStarting = true;
-        vision.LookTowards(currentWaypoint.transform.position); 
-        while(vision.GetIsLookTowardsRunning()){
-            yield return null;
-        }
-        while(currentWaypoint.GetDistance(transform.position) > waypointThreshold){
-            movement.DoMovement(currentWaypoint.GetDirection(transform.position), false);
-            vision.LookAt(currentWaypoint.transform.position);
-            yield return null;
-        }
-        isStarting = false;
-    }
-
-    public void DoPatrol(){
-        if(isStarting){
-            return;
-        }
-        if(vision.GetIsLookTowardsRunning()){
-            movement.DoMovementSilent(Vector2.zero, false);
-            return;
-        } 
-        if(timer < waitTime){
-            timer += Time.deltaTime;
-            movement.DoMovementSilent(Vector2.zero, false);
-            return;
-        } else if (isWaiting && timer >= waitTime){
-            currentWaypoint = currentWaypoint.GetNextWaypoint();
-            vision.LookTowards(currentWaypoint.transform.position);
-            isWaiting = false;
-        } 
-        if(currentWaypoint.GetDistance(transform.position) <= waypointThreshold){
-            movement.DoMovementSilent(Vector2.zero, false);
-            isWaiting = true;
-            timer = 0f;
+    public void DoPatrol()
+    {
+        if (currentWaypoint.GetDistance(transform.position) <= waypointThreshold) {
+            if (timer <= 0f) {
+                countdown = false;
+                timer = waitTime;
+                currentWaypoint = currentWaypoint.GetNextWaypoint();
+                agent.SetDestination(currentWaypoint.GetPosition());
+                vision.LookTowards(currentWaypoint.GetPosition());
+            } else {
+                if (!countdown) {
+                    countdown = true;
+                }
+                vision.LookTowards(currentWaypoint.GetNextWaypoint().GetPosition());
+            }
         } else {
-            movement.DoMovement(currentWaypoint.GetDirection(transform.position), false);
-            vision.LookAt(currentWaypoint.transform.position);
+            agent.SetDestination(currentWaypoint.GetPosition());
+            vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
         }
     }
 
-    public void StopPatrol(){
-        StopAllCoroutines();
-        vision.StopLookTowards();
+    void Update() {
+        if (countdown) {
+            timer = timer - Time.deltaTime;
+        }
     }
 
-
+    public void StopPatrol() {
+        countdown = false;
+        timer = waitTime;
+        StopAllCoroutines();
+    }
 }
