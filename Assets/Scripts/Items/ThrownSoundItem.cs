@@ -30,6 +30,6 @@ public class ThrownSoundItem : MonoBehaviour
 
             yield return null;
         }
-        sound.MakeSoundImpulse(1f, 0.5f);
+        sound.MakeSoundImpulse(3f, 2f);
     }
 }

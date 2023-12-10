@@ -14,6 +14,7 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private Transform playerPosition;
     [SerializeField] private SpriteRenderer sprite;
     private Vector2 lastPosition;
+    private Vector2 itemPosition;
     private Vector2 direction;
 
     [Header("Options")]
@@ -63,18 +64,40 @@ public class BasicNPCManager : MonoBehaviour
                     patrol.StartPatrol();
                 }
                 break;
+            case EnemyStates.Investigating:
+                agent.SetDestination(itemPosition);
+                vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
+                timer += Time.deltaTime;
+                if(timer >= cautionTime){
+                    state = EnemyStates.Patrol;
+                }
+                if(enemyVision.playerInVision){
+                    state = EnemyStates.Alert;
+                }
+                break;
         } 
     }
 
    private void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "Vision"){
-            StopCoroutine(DoFade(0.1f, 0.2f));
-            StartCoroutine(DoFade(1, 0.2f));
-        }
-        if(other.tag == "Player"){
-            lastPosition = other.transform.position;
-            vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
-            state = EnemyStates.Alert;
+        Debug.Log(other.transform.position);
+        switch(other.tag){
+            case "Vision":
+                StopCoroutine(DoFade(0.1f, 0.2f));
+                StartCoroutine(DoFade(1, 0.2f));
+                break;
+            case "Player":
+                lastPosition = other.transform.position;
+                vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
+                state = EnemyStates.Alert;
+                break;
+            case "ThrownItem":
+                if(state == EnemyStates.Alert){
+                    return;
+                }
+                itemPosition = other.transform.position;
+                timer = 0f;
+                state = EnemyStates.Investigating;
+                break;
         }
     }
 
