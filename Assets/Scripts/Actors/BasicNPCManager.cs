@@ -12,6 +12,7 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private MovementComponent movement;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform playerPosition;
+    [SerializeField] private SpriteRenderer sprite;
     private Vector2 lastPosition;
     private Vector2 direction;
 
@@ -65,13 +66,38 @@ public class BasicNPCManager : MonoBehaviour
         } 
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log(other);
+   private void OnTriggerEnter2D(Collider2D other){
+        if(other.tag == "Vision"){
+            StopCoroutine(DoFade(0.1f, 0.2f));
+            StartCoroutine(DoFade(1, 0.2f));
+        }
         if(other.tag == "Player"){
             lastPosition = other.transform.position;
             vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
             state = EnemyStates.Alert;
         }
     }
- 
+
+    private void OnTriggerExit2D(Collider2D other){
+        if(other.tag == "Vision"){
+            StopCoroutine(DoFade(1, 0.2f));
+            StartCoroutine(DoFade(0.1f, 0.2f));
+        }
+    }
+
+    private IEnumerator DoFade(float fadeLevel, float fadeTimer){
+        float lerpTime = fadeTimer;
+        float lerpTimer = 0f;
+        float fadeTimerCooldown = 0f;
+        while(fadeTimerCooldown < lerpTime){
+            fadeTimerCooldown += Time.deltaTime;
+            lerpTimer = Mathf.Sin((fadeTimerCooldown / lerpTime) * Mathf.PI * 0.5f);
+
+            Color newColor = sprite.color;
+            newColor.a = fadeLevel;
+
+            sprite.color = Color.Lerp(sprite.color, newColor, lerpTimer);
+            yield return null;
+        } 
+    }
 }

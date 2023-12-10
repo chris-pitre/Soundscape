@@ -13,6 +13,7 @@ public class FieldOfVision : MonoBehaviour
     public float FOV; // The actual FOV 
     public LayerMask viewMask;  // Objects on layers in this will have shadows cast on them
     public MeshFilter viewMeshFilter;
+    public PolygonCollider2D polygonCollider2D;
     Mesh viewMesh;
     public float rayPerDeg; //This is how many rays will be cast per degree try to leave it around 2-3 higher values lag alot
     public int edgeResolveIterations; //Higher values of this improve how well shadows are around corners 
@@ -76,6 +77,16 @@ public class FieldOfVision : MonoBehaviour
         
         viewMesh.triangles = tempTri;
         viewMesh.RecalculateNormals();
+
+        Vector2[] verts2D = new Vector2[verCount];
+        verts2D[0] = Vector2.zero;
+
+        for(int i = 0; i < verCount - 1; i++){
+            verts2D[i+1] = new Vector2(verts[i+1].x, verts[i+1].y);
+        }
+
+        polygonCollider2D.points = verts2D;
+
     }
 
     EdgeInfo FindEdge(rayCastInfo min, rayCastInfo max){ // We use this to smooth the edges around objects
