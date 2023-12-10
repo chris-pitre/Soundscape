@@ -11,8 +11,10 @@ public class ThrownSoundItem : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     private Vector2 initialVelocity;
+    private bool collectable = false;
     public void Throw(Vector2 target, float speed){
         rb.velocity = target * speed;
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, 10f);
         initialVelocity = rb.velocity;
         StartCoroutine(DoDrag());
     }
@@ -31,5 +33,15 @@ public class ThrownSoundItem : MonoBehaviour
             yield return null;
         }
         sound.MakeSoundImpulse(3f, 2f);
+        timer = 0f;
+        while(timer <= 1f){
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        collectable = true;
+    }
+
+    public bool isCollectable(){
+        return collectable;
     }
 }

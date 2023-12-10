@@ -80,10 +80,16 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //StartCoroutine(p_component.Hurt());
         if (collision.collider.CompareTag("Enemy"))
         {
             StartCoroutine(p_component.Hurt());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.tag == "ThrownItem" && other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
+            inventory.GetItem(0).ammo++;
+            Destroy(other.gameObject);
         }
     }
 }
