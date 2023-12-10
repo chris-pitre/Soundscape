@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class BasicNPCManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PatrolComponent patrol;
-    //eventually figure out how to combine these two components
     [SerializeField] private EnemyVision enemyVision;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private MovementComponent movement;
     [SerializeField] private NavMeshAgent agent;
-    //eventually when a* gets implemented, that will handle chasing the player
-    //for now, kinematic arrive
     [SerializeField] private Transform playerPosition;
     private Vector2 lastPosition;
     private Vector2 direction;
-    //end of temp stuff
 
     [Header("Options")]
     [SerializeField] private EnemyStates state;
@@ -33,10 +30,8 @@ public class BasicNPCManager : MonoBehaviour
     private void FixedUpdate() {
         switch(state){
             case EnemyStates.Alert:
+                patrol.StopPatrol();
                 agent.speed = 2.5f;
-                //direction = playerPosition.position - transform.position;
-                //movement.DoMovement(direction.normalized, false);
-                //astar.doMove(playerPosition.position, false);
                 agent.SetDestination(playerPosition.position);
                 vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
                 if(!enemyVision.playerInVision){
@@ -49,14 +44,12 @@ public class BasicNPCManager : MonoBehaviour
                 agent.speed = 1.5f;
                 patrol.DoPatrol();
                 if(enemyVision.playerInVision){
-                    //patrol.StopPatrol();
                     state = EnemyStates.Alert;
                 }
                 break;
             case EnemyStates.Cautious:
                 direction = enemyVision.hit.point - new Vector2(transform.position.x, transform.position.y);
                 if(direction.magnitude > radiusOfSat){
-                    
                     agent.SetDestination(lastPosition);
                     vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
                 }
@@ -69,9 +62,16 @@ public class BasicNPCManager : MonoBehaviour
                     patrol.StartPatrol();
                 }
                 break;
+        } 
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log(other);
+        if(other.tag == "Player"){
+            lastPosition = other.transform.position;
+            vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
+            state = EnemyStates.Alert;
         }
-       
-        
     }
  
 }
