@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MovementComponent))]
 [RequireComponent(typeof(VisionComponent))]
 public class PatrolComponent : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private MovementComponent movement;
     [SerializeField] private VisionComponent vision;
     [SerializeField] private Waypoint currentWaypoint;
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
@@ -23,7 +21,6 @@ public class PatrolComponent : MonoBehaviour
 
     private void Start() {
         transform.position = currentWaypoint.transform.position;
-        movement = GetComponent<MovementComponent>();
         vision = GetComponent<VisionComponent>();
         timer = waitTime;
     }

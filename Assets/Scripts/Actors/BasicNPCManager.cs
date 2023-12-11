@@ -9,10 +9,12 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private PatrolComponent patrol;
     [SerializeField] private EnemyVision enemyVision;
     [SerializeField] private VisionComponent vision;
-    [SerializeField] private MovementComponent movement;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform playerPosition;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Animator anim;
+    [SerializeField] private Transform rotationTransform;
+    [SerializeField] private SoundComponent sound;
     private Vector2 lastPosition;
     private Vector2 itemPosition;
     private Vector2 direction;
@@ -30,6 +32,19 @@ public class BasicNPCManager : MonoBehaviour
     }
   
     private void FixedUpdate() {
+        if(agent.velocity != Vector3.zero){
+            sound.MakeSoundConstant(4f);
+            anim.SetBool("Walking", true);
+        } else {
+            sound.MakeSoundConstant(0f);
+            anim.SetBool("Walking", false);
+        }
+
+        float angle = rotationTransform.eulerAngles.z;
+        Vector2 angleVector = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+        anim.SetFloat("moveX", angleVector.x);
+        anim.SetFloat("moveY", angleVector.y);
+
         switch(state){
             case EnemyStates.Alert:
                 patrol.StopPatrol();
@@ -82,8 +97,7 @@ public class BasicNPCManager : MonoBehaviour
         Debug.Log(other.transform.position);
         switch(other.tag){
             case "Vision":
-                StopCoroutine(DoFade(0.1f, 0.2f));
-                StartCoroutine(DoFade(1, 0.2f));
+                FadeIn();
                 break;
             case "Player":
                 lastPosition = other.transform.position;
@@ -103,9 +117,18 @@ public class BasicNPCManager : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other){
         if(other.tag == "Vision"){
-            StopCoroutine(DoFade(1, 0.2f));
-            StartCoroutine(DoFade(0.1f, 0.2f));
+            FadeOut();
         }
+    }
+
+    public void FadeIn(){
+        StopCoroutine(DoFade(0.1f, 0.2f));
+        StartCoroutine(DoFade(1, 0.2f));
+    }
+
+    public void FadeOut(){
+        StopCoroutine(DoFade(1, 0.2f));
+        StartCoroutine(DoFade(0.1f, 0.2f));
     }
 
     private IEnumerator DoFade(float fadeLevel, float fadeTimer){

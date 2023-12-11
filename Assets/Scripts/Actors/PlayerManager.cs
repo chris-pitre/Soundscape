@@ -91,5 +91,16 @@ public class PlayerManager : MonoBehaviour
             inventory.GetItem(0).ammo++;
             Destroy(other.gameObject);
         }
+        if(other.tag == "Enemy"){
+            BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+            enemy.FadeIn();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other){
+        if(other.tag == "Enemy"){
+            BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+            enemy.FadeOut();
+        }
     }
 }
