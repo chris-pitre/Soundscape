@@ -15,7 +15,7 @@ public class PatrolComponent : MonoBehaviour
     [SerializeField] private float waitTime = 0f;
 
     private bool countdown = false;
-    public float timer;
+    public float timer = 0f;
     public bool isWaiting = false;
     public bool isStarting = false;
 
