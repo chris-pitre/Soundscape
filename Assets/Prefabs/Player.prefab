@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: -530618993, guid: cfd0e8c1b48daeb4c88e0b51905a48ac, type: 3}
   m_Color: {r: 0.8113208, g: 0.74439895, b: 0.26406196, a: 1}
   m_FlipX: 0
@@ -157,8 +157,8 @@ MonoBehaviour:
   sound: {fileID: 0}
   actorRb: {fileID: 65647913828411056}
   runSpeed: 5
-  walkSpeed: 1
-  runSoundNoiseLevel: 4
+  walkSpeed: 2
+  runSoundNoiseLevel: 3
   walkSoundNoiseLevel: 0.5
   smoothValue: 0.1
 --- !u!114 &1915868782424990872
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - itemType: {fileID: 11400000, guid: 18bcf89ac19ba82e4bf8162e16349029, type: 2}
-    ammo: 5
+    ammo: 10
 --- !u!95 &8030565584284799106
 Animator:
   serializedVersion: 5
