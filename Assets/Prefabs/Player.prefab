@@ -155,8 +155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sound: {fileID: 0}
   actorRb: {fileID: 65647913828411056}
-  runSpeed: 10
-  walkSpeed: 5
+  runSpeed: 5
+  walkSpeed: 2.5
   runSoundNoiseLevel: 2
   walkSoundNoiseLevel: 0.5
   smoothValue: 0.1
@@ -254,6 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hearing: {fileID: 0}
+  lineMat: {fileID: 2100000, guid: 9f388adfa9932e04e88857a41b2db48f, type: 2}
 --- !u!114 &1647051048066005789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +304,7 @@ GameObject:
   - component: {fileID: 8955086786640172817}
   - component: {fileID: 5607407214921552068}
   - component: {fileID: 6777689327147431815}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: View Mesh Shown
   m_TagString: Vision
   m_Icon: {fileID: 0}

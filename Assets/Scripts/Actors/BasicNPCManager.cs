@@ -18,6 +18,8 @@ public class BasicNPCManager : MonoBehaviour
     private Vector2 lastPosition;
     private Vector2 itemPosition;
     private Vector2 direction;
+    private bool heard = false;
+    private bool seen = false;
 
     [Header("Options")]
     [SerializeField] private EnemyStates state;
@@ -29,10 +31,12 @@ public class BasicNPCManager : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
 		agent.updateUpAxis = false;
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0f);
     }
   
     private void FixedUpdate() {
         DoHearing();
+        HandleFade();
         
         if(agent.velocity != Vector3.zero){
             sound.MakeSoundConstant(4f);
@@ -61,10 +65,10 @@ public class BasicNPCManager : MonoBehaviour
                 break;
             case EnemyStates.Patrol:
                 agent.speed = 1.5f;
-                patrol.DoPatrol();
                 if(enemyVision.playerInVision){
                     state = EnemyStates.Alert;
                 }
+                patrol.DoPatrol();
                 break;
             case EnemyStates.Cautious:
                 direction = enemyVision.hit.point - new Vector2(transform.position.x, transform.position.y);
@@ -109,7 +113,7 @@ public class BasicNPCManager : MonoBehaviour
         Debug.Log(other.transform.position);
         switch(other.tag){
            case "Player":
-                FadeIn();
+                heard = true;
                 break;
             case "ThrownItem":
                 if(state == EnemyStates.Alert){
@@ -125,7 +129,7 @@ public class BasicNPCManager : MonoBehaviour
     private void GetHearingExit(Collider2D other){
         switch(other.tag){
             case "Player":
-                FadeOut();
+                heard = false;
                 break;
         }
     }
@@ -139,26 +143,36 @@ public class BasicNPCManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         switch(other.tag){
             case "Vision":
-                FadeIn();
+                seen = true;
                 break;
         } 
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        if(other.tag == "Vision"){
+        switch(other.tag){
+            case "Vision":
+                seen = false;
+                break;
+        }
+    }
+
+    private void HandleFade(){
+        if(heard || seen){
+            FadeIn();
+        } 
+        if(!heard && !seen){
             FadeOut();
         }
-        
     }
 
     public void FadeIn(){
-        StopCoroutine(DoFade(0.1f, 0.2f));
-        StartCoroutine(DoFade(1, 0.2f));
+        StopCoroutine(DoFade(0f, 0.2f));
+        StartCoroutine(DoFade(1f, 0.2f));
     }
 
     public void FadeOut(){
-        StopCoroutine(DoFade(1, 0.2f));
-        StartCoroutine(DoFade(0.1f, 0.2f));
+        StopCoroutine(DoFade(1f, 0.2f));
+        StartCoroutine(DoFade(0f, 0.2f));
     }
 
     private IEnumerator DoFade(float fadeLevel, float fadeTimer){

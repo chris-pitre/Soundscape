@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961de22a1f5eab8a69194da356fc7db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hearing: {fileID: 0}
+  lineMat: {fileID: 2100000, guid: 9f388adfa9932e04e88857a41b2db48f, type: 2}
 --- !u!114 &3823900947190740822
 MonoBehaviour:
   m_ObjectHideFlags: 0
