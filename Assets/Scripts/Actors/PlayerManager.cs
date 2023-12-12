@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InventoryComponent inventory;
     [SerializeField] private Animator animator;
     [SerializeField] private PostProccessingComponent p_component;
+    [SerializeField] private SoundComponent sound;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
@@ -23,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void FixedUpdate(){
+        DoHearing();
         Movement();
         Vision();
     }
@@ -86,6 +88,15 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void DoHearing(){
+        Collider2D entered = sound.GetEntered();
+        if(entered != null)
+            GetHearingEnter(entered);
+        Collider2D exited = sound.GetExited();
+        if(exited != null)
+            GetHearingExit(exited);
+    }
+
     private void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "ThrownItem" && other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
             inventory.GetItem(0).ammo++;
@@ -103,4 +114,15 @@ public class PlayerManager : MonoBehaviour
             enemy.FadeOut();
         }
     }
+
+    private void GetHearingEnter(Collider2D other){
+        if(other.tag == "Enemy"){
+            BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+            enemy.SetAlert(transform.position);
+        }
+    }
+    
+    private void GetHearingExit(Collider2D other){
+    }
 }
+

@@ -32,6 +32,8 @@ public class BasicNPCManager : MonoBehaviour
     }
   
     private void FixedUpdate() {
+        DoHearing();
+        
         if(agent.velocity != Vector3.zero){
             sound.MakeSoundConstant(4f);
             anim.SetBool("Walking", true);
@@ -93,16 +95,21 @@ public class BasicNPCManager : MonoBehaviour
         } 
     }
 
-   private void OnTriggerEnter2D(Collider2D other){
+    private void DoHearing(){
+        Collider2D entered = sound.GetEntered();
+        if(entered != null)
+            GetHearingEnter(entered);
+        Collider2D exited = sound.GetExited();
+        if(exited != null)
+            GetHearingExit(exited);
+    }
+
+
+   private void GetHearingEnter(Collider2D other){
         Debug.Log(other.transform.position);
         switch(other.tag){
-            case "Vision":
+           case "Player":
                 FadeIn();
-                break;
-            case "Player":
-                lastPosition = other.transform.position;
-                vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
-                state = EnemyStates.Alert;
                 break;
             case "ThrownItem":
                 if(state == EnemyStates.Alert){
@@ -115,10 +122,33 @@ public class BasicNPCManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other){
+    private void GetHearingExit(Collider2D other){
+        switch(other.tag){
+            case "Player":
+                FadeOut();
+                break;
+        }
+    }
+
+    public void SetAlert(Vector3 alertPos){
+        lastPosition = alertPos;
+        vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
+        state = EnemyStates.Alert;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        switch(other.tag){
+            case "Vision":
+                FadeIn();
+                break;
+        } 
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "Vision"){
             FadeOut();
         }
+        
     }
 
     public void FadeIn(){

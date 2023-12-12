@@ -139,6 +139,7 @@ MonoBehaviour:
   inventory: {fileID: 1647051048066005789}
   animator: {fileID: 8030565584284799106}
   p_component: {fileID: 0}
+  sound: {fileID: 6490382132770274696}
   itemSpawn: {fileID: 1160762399974026955}
 --- !u!114 &7992860507332016707
 MonoBehaviour:
