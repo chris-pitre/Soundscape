@@ -12,36 +12,23 @@ public class ThrownSoundItem : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private Vector2 initialVelocity;
     private bool collectable = false;
+
+    private void LateUpdate() {
+        if(!collectable && rb.velocity.magnitude <= 0.1f){
+            collectable = true;
+        }
+    }
     public void Throw(Vector2 target, float speed){
         rb.velocity = target * speed;
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, 10f);
         initialVelocity = rb.velocity;
-        StartCoroutine(DoDrag());
-    }
-
-    private IEnumerator DoDrag(){
-        float lerpTime = 1f;
-        float currentLerpTime = 0f;
-        float timer = 0f;
-        while(currentLerpTime < lerpTime){
-            currentLerpTime += Time.deltaTime;
-
-            timer = currentLerpTime / lerpTime;
-            timer = 1f - Mathf.Cos(timer * Mathf.PI * 0.5f);
-            rb.velocity = Vector2.Lerp(initialVelocity, Vector2.zero, timer);
-
-            yield return null;
-        }
-        sound.MakeSoundImpulse(3f, 2f);
-        timer = 0f;
-        while(timer <= 1f){
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        collectable = true;
     }
 
     public bool isCollectable(){
         return collectable;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other){
+        sound.MakeSoundImpulse(3f, 2f);
     }
 }

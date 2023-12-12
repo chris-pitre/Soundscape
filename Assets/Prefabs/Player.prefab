@@ -157,8 +157,8 @@ MonoBehaviour:
   sound: {fileID: 0}
   actorRb: {fileID: 65647913828411056}
   runSpeed: 5
-  walkSpeed: 2.5
-  runSoundNoiseLevel: 2
+  walkSpeed: 1
+  runSoundNoiseLevel: 4
   walkSoundNoiseLevel: 0.5
   smoothValue: 0.1
 --- !u!114 &1915868782424990872
