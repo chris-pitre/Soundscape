@@ -141,6 +141,7 @@ MonoBehaviour:
   p_component: {fileID: 0}
   sound: {fileID: 6490382132770274696}
   itemSpawn: {fileID: 1160762399974026955}
+  maxHp: 3
 --- !u!114 &7992860507332016707
 MonoBehaviour:
   m_ObjectHideFlags: 0

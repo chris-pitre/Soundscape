@@ -14,11 +14,16 @@ public class PlayerManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
-
+    [Header("Settings")]
+    [SerializeField] private int maxHp = 3;
+    private int hp;
     private float throwTimer = 0f;
 
     private bool isThrowing = false;
 
+    private void Start() {
+        hp = maxHp;
+    }
     private void Update(){
         ThrowCurrentItem();
     }
@@ -84,7 +89,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
+            hp--;
+            p_component.vignette.intensity.value = (hp * -0.3f) + 1f;
             StartCoroutine(p_component.Hurt());
+            if(hp <= 0){
+                //lose screen
+            }
         }
     }
 
