@@ -54,10 +54,10 @@ public class BasicNPCManager : MonoBehaviour
         switch(state){
             case EnemyStates.Alert:
                 patrol.StopPatrol();
-                agent.speed = 2.5f;
+                agent.speed = 4f;
                 agent.SetDestination(playerPosition.position);
                 vision.LookFasterTowards(transform.position + (agent.velocity.normalized));
-                if(!enemyVision.playerInVision){
+                if(!enemyVision.playerInVision && !heard){
                     timer = 0f;
                     lastPosition = playerPosition.position;
                     state = EnemyStates.Cautious;
