@@ -143,5 +143,9 @@ public class PlayerManager : MonoBehaviour
     
     private void GetHearingExit(Collider2D other){
     }
+
+    public int GetKeys(){
+        return keys;
+    }
 }
 

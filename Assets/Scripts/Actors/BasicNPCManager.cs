@@ -110,7 +110,6 @@ public class BasicNPCManager : MonoBehaviour
 
 
    private void GetHearingEnter(Collider2D other){
-        Debug.Log(other.transform.position);
         switch(other.tag){
            case "Player":
                 heard = true;
