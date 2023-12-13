@@ -163,31 +163,17 @@ public class BasicNPCManager : MonoBehaviour
         if(!heard && !seen){
             FadeOut();
         }
+        
+        float newAlpha = Mathf.MoveTowards(sprite.color.a, fadeLevel, Time.deltaTime * 2f);
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, newAlpha);
     }
 
+    private float fadeLevel = 0f;
     public void FadeIn(){
-        StopCoroutine(DoFade(0f, 0.2f));
-        StartCoroutine(DoFade(1f, 0.2f));
+        fadeLevel = 1f;
     }
 
     public void FadeOut(){
-        StopCoroutine(DoFade(1f, 0.2f));
-        StartCoroutine(DoFade(0f, 0.2f));
-    }
-
-    private IEnumerator DoFade(float fadeLevel, float fadeTimer){
-        float lerpTime = fadeTimer;
-        float lerpTimer = 0f;
-        float fadeTimerCooldown = 0f;
-        while(fadeTimerCooldown < lerpTime){
-            fadeTimerCooldown += Time.deltaTime;
-            lerpTimer = Mathf.Sin((fadeTimerCooldown / lerpTime) * Mathf.PI * 0.5f);
-
-            Color newColor = sprite.color;
-            newColor.a = fadeLevel;
-
-            sprite.color = Color.Lerp(sprite.color, newColor, lerpTimer);
-            yield return null;
-        } 
+        fadeLevel = 0f;
     }
 }

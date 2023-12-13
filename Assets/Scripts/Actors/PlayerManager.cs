@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int maxHp = 3;
     private int hp;
+    private int keys = 0;
     private float throwTimer = 0f;
 
     private bool isThrowing = false;
@@ -108,13 +109,21 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "ThrownItem" && other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
-            inventory.GetItem(0).ammo++;
-            Destroy(other.gameObject);
-        }
-        if(other.tag == "Enemy"){
-            BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
-            enemy.FadeIn();
+        switch(other.tag){
+            case "ThrownItem":
+                if(other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
+                    inventory.GetItem(0).ammo++;
+                    Destroy(other.gameObject);
+                }
+                break;
+            case "Enemy":
+                BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+                enemy.FadeIn();
+                break;
+            case "Key":
+                keys++;
+                Destroy(other.gameObject);
+                break;
         }
     }
 
