@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InventoryComponent inventory;
     [SerializeField] private Animator animator;
     [SerializeField] private PostProccessingComponent p_component;
+    [SerializeField] private UIManager uiManager;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
@@ -17,6 +18,8 @@ public class PlayerManager : MonoBehaviour
     private float throwTimer = 0f;
 
     private bool isThrowing = false;
+
+    private float hp = 1f;
 
     private void Update(){
         ThrowCurrentItem();
@@ -83,6 +86,13 @@ public class PlayerManager : MonoBehaviour
         if (collision.collider.CompareTag("Enemy"))
         {
             StartCoroutine(p_component.Hurt());
+            hp-=0.2f;
+            uiManager.UpdateHealth(hp);
+            if (hp < 0.1f)
+            {
+                uiManager.ShowGameOverScreen();
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -91,5 +101,10 @@ public class PlayerManager : MonoBehaviour
             inventory.GetItem(0).ammo++;
             Destroy(other.gameObject);
         }
+    }
+
+    public float getHP()
+    {
+        return hp;
     }
 }
