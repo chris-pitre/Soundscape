@@ -15,6 +15,7 @@ public class BasicNPCManager : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Transform rotationTransform;
     [SerializeField] private SoundComponent sound;
+    [SerializeField] private AudioComponent audioComp;
     private Vector2 lastPosition;
     private Vector2 itemPosition;
     private Vector2 direction;
@@ -33,6 +34,9 @@ public class BasicNPCManager : MonoBehaviour
 		agent.updateUpAxis = false;
         sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0f);
     }
+
+    private float walkTimer = 0f;
+    private readonly float maxWalkTimer = 0.5f;
   
     private void FixedUpdate() {
         DoHearing();
@@ -40,9 +44,15 @@ public class BasicNPCManager : MonoBehaviour
         
         if(agent.velocity != Vector3.zero){
             sound.MakeSoundConstant(4f);
+            walkTimer += Time.deltaTime;
+            if(walkTimer >= maxWalkTimer){
+                walkTimer = 0f;
+                audioComp.PlayFootstep();
+            }
             anim.SetBool("Walking", true);
         } else {
             sound.MakeSoundConstant(0f);
+            walkTimer = 0f;
             anim.SetBool("Walking", false);
         }
 

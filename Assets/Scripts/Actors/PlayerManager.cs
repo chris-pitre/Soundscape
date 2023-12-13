@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PostProccessingComponent p_component;
     [SerializeField] private SoundComponent sound;
+    [SerializeField] private AudioComponent audioComp;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
@@ -35,6 +36,8 @@ public class PlayerManager : MonoBehaviour
         Vision();
     }
 
+    private float walkTimer = 0f;
+    private readonly float maxWalkTimer = 0.5f;
     private void Movement(){
         Vector2 input;
         float x_input = Input.GetAxisRaw("Horizontal");
@@ -48,7 +51,13 @@ public class PlayerManager : MonoBehaviour
 
         if(input == Vector2.zero){
             animator.SetBool("moving", false);
+            walkTimer = 0f;
         } else {
+            walkTimer += Time.deltaTime;
+            if(!isWalking && walkTimer >= maxWalkTimer){
+                walkTimer = 0f;
+                audioComp.PlayFootstep();
+            }
             animator.SetBool("moving", true);
         }
 
@@ -122,6 +131,7 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Key":
                 keys++;
+                audioComp.PlayPickup();
                 Destroy(other.gameObject);
                 break;
         }

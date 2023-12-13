@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class Keyblock : MonoBehaviour
 {
-   private void OnTriggerEnter2D(Collider2D other) {
+    [Header("References")]
+    [SerializeField] private AudioSource audioSource;
+    private void OnTriggerEnter2D(Collider2D other) {
         Debug.Log(other);
         switch (other.tag){
             case "Player":
                 if(other.gameObject.GetComponent<PlayerManager>().GetKeys() >= 3){
-                    Destroy(this.gameObject);
+                    audioSource.Play();
+                    StartCoroutine(WaitForSound());
                 }
                 break;
         }
-   } 
+    }
+
+    private IEnumerator WaitForSound(){
+        while(audioSource.isPlaying){
+            yield return null;
+        }
+        Destroy(this.gameObject);
+    }
 
 }
