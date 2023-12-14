@@ -10,22 +10,20 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InventoryComponent inventory;
     [SerializeField] private Animator animator;
     [SerializeField] private PostProccessingComponent p_component;
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private SoundComponent sound;
     [SerializeField] private AudioComponent audioComp;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
-    [Header("Settings")]
-    [SerializeField] private int maxHp = 3;
-    private int hp;
+
     private int keys = 0;
     private float throwTimer = 0f;
 
     private bool isThrowing = false;
 
-    private void Start() {
-        hp = maxHp;
-    }
+    private int hp = 5;
+
     private void Update(){
         ThrowCurrentItem();
     }
@@ -100,10 +98,13 @@ public class PlayerManager : MonoBehaviour
         if (collision.collider.CompareTag("Enemy"))
         {
             hp--;
-            p_component.vignette.intensity.value = (hp * -0.3f) + 1f;
+            p_component.vignette.intensity.value += 0.05f;
             StartCoroutine(p_component.Hurt());
-            if(hp <= 0){
-                //lose screen
+            uiManager.UpdateHealth(hp * 0.1f);
+            if (hp <= 0)
+            {
+                uiManager.ShowGameOverScreen();
+                Destroy(gameObject);
             }
         }
     }
@@ -135,6 +136,10 @@ public class PlayerManager : MonoBehaviour
                 Destroy(other.gameObject);
                 break;
         }
+    }
+
+    public float getHP(){
+        return hp;
     }
 
     private void OnTriggerExit2D(Collider2D other){
