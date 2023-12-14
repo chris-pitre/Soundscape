@@ -12,15 +12,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image healthBar;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private TextMeshProUGUI gameoverText;
+    private bool dead = false;
     void Start()
     {
-        invText.text = "Items: " + inventory.GetItem(0).ammo;
+        invText.text = "Rocks: " + inventory.GetItem(0).ammo;
     }
 
     // Update is called once per frame
     void Update()
     {
-        invText.text = "Items: " + inventory.GetItem(0).ammo;
+        invText.text = "Rocks: " + inventory.GetItem(0).ammo;
+        if(dead){
+            if(Input.anyKeyDown){
+                SceneScriptManager.Instance.ChangeScene(0);
+            }
+        }
     }
 
     public void UpdateHealth(float playerHP)
@@ -32,5 +38,6 @@ public class UIManager : MonoBehaviour
     {
         gameoverText.gameObject.SetActive(true);
         invText.gameObject.SetActive(false);
+        dead = true;
     }
 }

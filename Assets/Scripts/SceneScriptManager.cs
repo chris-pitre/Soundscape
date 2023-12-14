@@ -5,21 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class SceneScriptManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] int sceneNum; 
-    void Start()
-    {
-        
+    [Header("References")]
+    public Animator transition;
+    private static SceneScriptManager _instance;
+    public static SceneScriptManager Instance{ get { return _instance;}}
+    private void Awake(){
+        if(_instance != null && _instance != this){
+            Destroy(this.gameObject);
+        } else {
+            _instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            Application.Quit();
+        }
     }
 
-    public void ChangeScene()
+    public void ChangeScene(int sceneNum)
     {
+        StartCoroutine(ChangeSceneCoroutine(sceneNum));
+    }
+
+    private IEnumerator ChangeSceneCoroutine(int sceneNum){
+        transition.SetTrigger("StartFade");
+        yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene(sceneNum);
     }
 }
