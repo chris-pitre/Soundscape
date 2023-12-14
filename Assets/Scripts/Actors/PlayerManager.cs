@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
 
     private bool isThrowing = false;
 
-    private float hp = 1f;
+    private int hp = 5;
 
     private void Update(){
         ThrowCurrentItem();
@@ -98,11 +98,10 @@ public class PlayerManager : MonoBehaviour
         if (collision.collider.CompareTag("Enemy"))
         {
             hp--;
-            p_component.vignette.intensity.value = (hp * -0.3f) + 1f;
+            p_component.vignette.intensity.value += 0.05f;
             StartCoroutine(p_component.Hurt());
-            hp-=0.2f;
-            uiManager.UpdateHealth(hp);
-            if (hp < 0.1f)
+            uiManager.UpdateHealth(hp * 0.1f);
+            if (hp <= 0)
             {
                 uiManager.ShowGameOverScreen();
                 Destroy(gameObject);
