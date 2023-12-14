@@ -10,23 +10,32 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InventoryComponent inventory;
     [SerializeField] private Animator animator;
     [SerializeField] private PostProccessingComponent p_component;
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private SoundComponent sound;
+    [SerializeField] private AudioComponent audioComp;
 
     [Header("References")]
     [SerializeField] private Transform itemSpawn;
 
+    private int keys = 0;
     private float throwTimer = 0f;
 
     private bool isThrowing = false;
+
+    private int hp = 5;
 
     private void Update(){
         ThrowCurrentItem();
     }
 
     private void FixedUpdate(){
+        DoHearing();
         Movement();
         Vision();
     }
 
+    private float walkTimer = 0f;
+    private readonly float maxWalkTimer = 0.5f;
     private void Movement(){
         Vector2 input;
         float x_input = Input.GetAxisRaw("Horizontal");
@@ -40,7 +49,13 @@ public class PlayerManager : MonoBehaviour
 
         if(input == Vector2.zero){
             animator.SetBool("moving", false);
+            walkTimer = 0f;
         } else {
+            walkTimer += Time.deltaTime;
+            if(!isWalking && walkTimer >= maxWalkTimer){
+                walkTimer = 0f;
+                audioComp.PlayFootstep();
+            }
             animator.SetBool("moving", true);
         }
 
@@ -82,14 +97,70 @@ public class PlayerManager : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
+            hp--;
+            p_component.vignette.intensity.value += 0.05f;
             StartCoroutine(p_component.Hurt());
+            uiManager.UpdateHealth(hp * 0.1f);
+            if (hp <= 0)
+            {
+                uiManager.ShowGameOverScreen();
+                Destroy(gameObject);
+            }
         }
     }
 
+    private void DoHearing(){
+        Collider2D entered = sound.GetEntered();
+        if(entered != null)
+            GetHearingEnter(entered);
+        Collider2D exited = sound.GetExited();
+        if(exited != null)
+            GetHearingExit(exited);
+    }
+
     private void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "ThrownItem" && other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
-            inventory.GetItem(0).ammo++;
-            Destroy(other.gameObject);
+        switch(other.tag){
+            case "ThrownItem":
+                if(other.gameObject.GetComponent<ThrownSoundItem>().isCollectable()){
+                    inventory.GetItem(0).ammo++;
+                    Destroy(other.gameObject);
+                }
+                break;
+            case "Enemy":
+                BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+                enemy.FadeIn();
+                break;
+            case "Key":
+                keys++;
+                audioComp.PlayPickup();
+                Destroy(other.gameObject);
+                break;
         }
     }
+
+    public float getHP(){
+        return hp;
+    }
+
+    private void OnTriggerExit2D(Collider2D other){
+        if(other.tag == "Enemy"){
+            BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+            enemy.FadeOut();
+        }
+    }
+
+    private void GetHearingEnter(Collider2D other){
+        if(other.tag == "Enemy"){
+            BasicNPCManager enemy = other.gameObject.GetComponent<BasicNPCManager>();
+            enemy.SetAlert(transform.position);
+        }
+    }
+    
+    private void GetHearingExit(Collider2D other){
+    }
+
+    public int GetKeys(){
+        return keys;
+    }
 }
+

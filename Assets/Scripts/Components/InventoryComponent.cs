@@ -17,4 +17,6 @@ public class InventoryComponent : MonoBehaviour
     public ItemInstance GetItem(int index){
         return items[index];
     }
+
+    
 }
